@@ -13,7 +13,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -22,7 +21,8 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
-public class MenuRender {
+// REFERENCE ONLY MATERIAL || DO NOT USE
+public class ReferenceRenderer {
     static HashMap<UUID, BlockPos> coordinates = new HashMap<>();
     private static KeyBinding keyBinding;
     private static final String DOG_TEXTURE = "meenu:textures/dog.png";
