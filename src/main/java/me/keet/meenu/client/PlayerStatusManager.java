@@ -36,6 +36,10 @@ public class PlayerStatusManager {
     }
 
     private static void onScreenClosed(Screen screen) {
+        if (MinecraftClient.getInstance().getNetworkHandler() == null) {
+            return;
+        }
+
         playerStatus = PlayerStatus.NONE;
 
         ClientPlayNetworking.send(new PlayerStateUpdatePayload(playerStatus));
