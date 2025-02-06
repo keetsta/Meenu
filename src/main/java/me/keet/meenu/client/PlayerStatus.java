@@ -1,11 +1,16 @@
 package me.keet.meenu.client;
 
+import me.keet.meenu.Meenu;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.util.Identifier;
+
 public enum PlayerStatus {
     NONE,
+    ESCAPE,
     INVENTORY,
     CRAFTING,
     CHAT_SCREEN,
-    ESCAPE,
     EDIT_SIGN,
     EDIT_BOOK,
     CHEST,
@@ -21,5 +26,14 @@ public enum PlayerStatus {
     LOOM,
     VILLAGER,
     COMMAND_BLOCK,
-    // MISC;
+    ;
+
+    public final Identifier texturePath = Identifier.of(Meenu.MOD_ID, "textures/menus/" + this.name().toLowerCase() + ".png");
+
+    public static final PacketCodec<PacketByteBuf, PlayerStatus> PACKET_CODEC = PacketCodec.of(
+            // encoder: writing to the packet
+            (value, buf) -> buf.writeEnumConstant(value),
+            // decoder: reading the packet
+            buf -> buf.readEnumConstant(PlayerStatus.class)
+    );
 }
