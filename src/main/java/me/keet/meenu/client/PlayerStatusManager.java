@@ -1,16 +1,13 @@
 package me.keet.meenu.client;
 
-import com.google.gson.internal.GsonBuildConfig;
 import me.keet.meenu.networking.PlayerStateUpdatePayload;
-import me.keet.meenu.networking.RenderStateUpdatePayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.CraftingScreen;
-import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.client.gui.screen.ingame.*;
 
 public class PlayerStatusManager {
     static PlayerStatus playerStatus = PlayerStatus.NONE;
@@ -22,14 +19,44 @@ public class PlayerStatusManager {
 
         ScreenEvents.remove(screen).register(PlayerStatusManager::onScreenClosed);
 
-        if (screen instanceof InventoryScreen || screen instanceof CreativeInventoryScreen) {
+        if (screen instanceof GameMenuScreen) {
+            playerStatus = PlayerStatus.ESCAPE; // TODO: Other esc screens
+        } else if (screen instanceof InventoryScreen || screen instanceof CreativeInventoryScreen) {
             playerStatus = PlayerStatus.INVENTORY;
-        } else if (screen instanceof CraftingScreen) {
+        } else if (screen instanceof CraftingScreen || screen instanceof CrafterScreen) {
             playerStatus = PlayerStatus.CRAFTING;
-        } else if (screen instanceof GameMenuScreen) {
-            playerStatus = PlayerStatus.ESCAPE;
-        } else {
-            System.err.println("Unknown screen: " + screen.getClass().getName());
+        } else if (screen instanceof ChatScreen) {
+            playerStatus = PlayerStatus.CHAT_SCREEN;
+        } else if (screen instanceof SignEditScreen) {
+            playerStatus = PlayerStatus.EDIT_SIGN;
+        } else if (screen instanceof BookEditScreen) {
+            playerStatus = PlayerStatus.EDIT_BOOK;
+        } else if (screen instanceof GenericContainerScreen || screen instanceof ShulkerBoxScreen) {
+            playerStatus = PlayerStatus.CHEST;
+        } else if (screen instanceof EnchantmentScreen) {
+            playerStatus = PlayerStatus.ENCHANTING_TABLE;
+        } else if (screen instanceof AnvilScreen) {
+            playerStatus = PlayerStatus.ANVIL;
+        } else if (screen instanceof BeaconScreen) {
+            playerStatus = PlayerStatus.BEACON;
+        } else if (screen instanceof BrewingStandScreen) {
+            playerStatus = PlayerStatus.BREWING_STAND;
+        } else if (screen instanceof Generic3x3ContainerScreen) {
+            playerStatus = PlayerStatus.DISPENSER;
+        } else if (screen instanceof FurnaceScreen || screen instanceof SmokerScreen || screen instanceof BlastFurnaceScreen) {
+            playerStatus = PlayerStatus.FURNACE;
+        } else if (screen instanceof GrindstoneScreen) {
+            playerStatus = PlayerStatus.GRINDSTONE;
+        } else if (screen instanceof HopperScreen) {
+            playerStatus = PlayerStatus.HOPPER;
+        } else if (screen instanceof HorseScreen) {
+            playerStatus = PlayerStatus.HORSE;
+        } else if (screen instanceof LoomScreen) {
+            playerStatus = PlayerStatus.LOOM;
+        } else if (screen instanceof MerchantScreen) {
+            playerStatus = PlayerStatus.VILLAGER;
+        } else if (screen instanceof CommandBlockScreen) {
+            playerStatus = PlayerStatus.COMMAND_BLOCK;
         }
 
         ClientPlayNetworking.send(new PlayerStateUpdatePayload(playerStatus));
