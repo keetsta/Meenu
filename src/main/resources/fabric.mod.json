@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Meenu",
-  "description": "See what are they doing!",
+  "description": "See other's gui",
   "authors": ["keet", "otomir23"],
   "contact": {
     "sources": "https://github.com/keetsta/Meenu"
@@ -24,7 +24,7 @@
   ],
 
   "depends": {
-    "fabricloader": "<=${loader_version}",
+    "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "<=${minecraft_version}"
   }
