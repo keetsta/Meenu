@@ -6,7 +6,6 @@ import me.keet.meenu.client.PlayerStatus;
 import me.keet.meenu.networking.RenderStateUpdatePayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
-import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.render.*;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
@@ -66,7 +65,7 @@ public class MenuRender {
                 Matrix4f matrix = matrices.peek().getPositionMatrix();
 
                 RenderSystem.setShaderTexture(0, playerStatus.texturePath);
-                RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX);
+                RenderSystem.setShader(GameRenderer::getPositionTexProgram);
                 RenderSystem.enableBlend();
                 RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.7f);
                 RenderSystem.enableDepthTest();
