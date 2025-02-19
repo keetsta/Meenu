@@ -57,6 +57,8 @@ public class PlayerStatusManager {
             playerStatus = PlayerStatus.VILLAGER;
         } else if (screen instanceof CommandBlockScreen) {
             playerStatus = PlayerStatus.COMMAND_BLOCK;
+        } else {
+            System.out.println(screen.getClass());
         }
 
         ClientPlayNetworking.send(new PlayerStateUpdatePayload(playerStatus));
