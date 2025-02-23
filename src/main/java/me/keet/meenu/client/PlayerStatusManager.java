@@ -7,7 +7,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.advancement.AdvancementsScreen;
 import net.minecraft.client.gui.screen.ingame.*;
+import net.minecraft.client.gui.screen.option.OptionsScreen;
 
 public class PlayerStatusManager {
     static PlayerStatus playerStatus = PlayerStatus.NONE;
@@ -19,8 +21,8 @@ public class PlayerStatusManager {
 
         ScreenEvents.remove(screen).register(PlayerStatusManager::onScreenClosed);
 
-        if (screen instanceof GameMenuScreen) {
-            playerStatus = PlayerStatus.ESCAPE; // TODO: Other esc screens
+        if (screen instanceof GameMenuScreen || screen instanceof OptionsScreen || screen instanceof AdvancementsScreen) {
+            playerStatus = PlayerStatus.ESCAPE;
         } else if (screen instanceof InventoryScreen || screen instanceof CreativeInventoryScreen) {
             playerStatus = PlayerStatus.INVENTORY;
         } else if (screen instanceof CraftingScreen || screen instanceof CrafterScreen) {
@@ -57,6 +59,8 @@ public class PlayerStatusManager {
             playerStatus = PlayerStatus.VILLAGER;
         } else if (screen instanceof CommandBlockScreen) {
             playerStatus = PlayerStatus.COMMAND_BLOCK;
+        } else {
+            System.out.println(screen.getClass());
         }
 
         ClientPlayNetworking.send(new PlayerStateUpdatePayload(playerStatus));
